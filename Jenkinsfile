@@ -35,7 +35,7 @@ doGenerateSubmoduleConfigurations: false, extensions: [], gitTool:
     stage('Unit Tests') {
       steps{
         echo "------------>Unit Tests<------------"
-        sh 'gradle test' 
+        sh './gradlew test' 
 
       }
     }
