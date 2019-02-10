@@ -28,7 +28,7 @@ recientes del Pipeline.
 doGenerateSubmoduleConfigurations: false, extensions: [], gitTool:
 'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId:
 'GitHub_juancastillav', url:
-'https://github.com/juancastillav/adnceiba']]])
+'https://github.com/juancastillav/adnceiba.git']]])
         
       }
     }
