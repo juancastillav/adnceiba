@@ -1,0 +1,45 @@
+buildscript {
+	ext {
+		springBootVersion = '2.2.0.BUILD-SNAPSHOT'
+	}
+	repositories {
+		mavenCentral()
+		maven { url 'https://repo.spring.io/snapshot' }
+		maven { url 'https://repo.spring.io/milestone' }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'co.com.ceiba'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/snapshot' }
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	runtimeOnly 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile group: 'joda-time', name: 'joda-time', version: '2.10.1'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.24.0'
+	testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.3.2'	
+	testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.3.2'
+}
+
+test {
+    useJUnitPlatform()
+}
