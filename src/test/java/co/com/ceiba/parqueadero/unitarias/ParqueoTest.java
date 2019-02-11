@@ -42,8 +42,8 @@ public class ParqueoTest {
 	
 	@Test	
 	public void nuevoParqueoVehiculoNoExiste() {		
-		Parqueo parqueo = new Parqueo(null, null);
-		ParqueoEntity parqueoEntity=new ParqueoEntity(1,new GregorianCalendar(2019,1,5,6,24,00));				
+		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);
+		ParqueoEntity parqueoEntity=new ParqueoEntity(0,new GregorianCalendar(2019,1,5,6,24,00));	
 		assertEquals("EL VEHICULO NO EXISTE", parqueo.nuevoParqueo(parqueoEntity));
 	}
 	@Test	

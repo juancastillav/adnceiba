@@ -20,16 +20,19 @@ public class Parqueo {
 
 	public String nuevoParqueo(ParqueoEntity parqueo) {
 		
-			Optional<VehiculoEntity> vehiculoEntity = vehiculoRepository.findById(parqueo.getVehiculoId());
-			if (vehiculoEntity.isPresent()) {
-				if (verificarPlacaYFechaVehiculo(vehiculoEntity.get()))
+			VehiculoEntity vehiculoEntity = vehiculoRepository.findById(parqueo.getVehiculoId()).orElse(null);
+			if (vehiculoEntity!=null) {
+				if (verificarPlacaYFechaVehiculo(vehiculoEntity))
 					return "EL VEHICULO NO PUEDE INGRESAR EL DIA DE HOY";
-				if (verificarLimiteDeVehiculoNoEsExcedido(vehiculoEntity.get()))
-					return "EL LIMITE DE: " + vehiculoEntity.get().getTipoVehiculo() + " HA SIDO SUPERADO";
+				if (verificarLimiteDeVehiculoNoEsExcedido(vehiculoEntity))
+					return "EL LIMITE DE: " + vehiculoEntity.getTipoVehiculo() + " HA SIDO SUPERADO";
 				parqueoRepository.save(parqueo);
 				return "OK";
-			}					
-			return "EL VEHICULO NO EXISTE";	
+			}else	{
+				return "EL VEHICULO NO EXISTE";	
+			}
+				
+			
 
 	}
 
