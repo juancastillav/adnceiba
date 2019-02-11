@@ -36,7 +36,8 @@ doGenerateSubmoduleConfigurations: false, extensions: [], gitTool:
       steps{
         echo "------------>Unit Tests<------------"
         sh 'chmod 755 ./gradlew'
-        sh './gradlew test' 
+        //sh './gradlew test' 
+        sh 'gradle --b ./build.gradle test' 
 
       }
     }
