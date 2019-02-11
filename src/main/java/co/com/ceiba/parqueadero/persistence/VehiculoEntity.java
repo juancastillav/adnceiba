@@ -61,6 +61,6 @@ public class VehiculoEntity {
 
 	public void setTipoVehiculo(String tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
-	};
+	}
 
 }

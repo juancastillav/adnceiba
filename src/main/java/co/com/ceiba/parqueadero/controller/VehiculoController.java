@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.ceiba.parqueadero.model.Vehiculo;
-import co.com.ceiba.parqueadero.persistence.ParqueoRepository;
 import co.com.ceiba.parqueadero.persistence.VehiculoEntity;
 import co.com.ceiba.parqueadero.persistence.VehiculoRepository;
 
@@ -28,13 +27,13 @@ public class VehiculoController {
 	private Vehiculo vehiculo;
 	
 
-	public VehiculoController(VehiculoRepository vehiculoRepository,ParqueoRepository parqueoRepository) {		
+	public VehiculoController(VehiculoRepository vehiculoRepository) {		
 		this.vehiculoRepository = vehiculoRepository;
 		vehiculo = new Vehiculo( vehiculoRepository);
 	}
 	
 	@GetMapping("/all")
-	List<VehiculoEntity> todosLosVehiculos(){
+	public List<VehiculoEntity> todosLosVehiculos(){
 		return vehiculoRepository.findAll();
 	}
 	@GetMapping("/{vehiculoId}")
@@ -50,7 +49,7 @@ public class VehiculoController {
 	@PostMapping("/vehiculo")
 	public ResponseEntity<String> nuevoVehiculo(@RequestBody VehiculoEntity vehiculoEntity) {
 		String mensaje = this.vehiculo.nuevoVehiculo(vehiculoEntity);
-		if (mensaje.equals("OK"))
+		if ("OK".equals(mensaje))
 			return new ResponseEntity<>("PARQUEO CREADO CON EXITO", HttpStatus.OK);
 		else
 			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);

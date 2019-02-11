@@ -3,9 +3,9 @@ package co.com.ceiba.parqueadero.model;
 public class ParqueoVehiculoFactory {
 
 	public ParqueoVehiculo costoParqueo(String tipoVehiculo) {
-		if(tipoVehiculo.equals("CARRO"))
+		if("CARRO".equals(tipoVehiculo))
 			return new ParqueoVehiculoCarro();
-		else if(tipoVehiculo.equals("MOTO")) 
+		else if("MOTO".equals(tipoVehiculo)) 
 			return new ParqueoVehiculoMoto();
 		else
 			return null;		
