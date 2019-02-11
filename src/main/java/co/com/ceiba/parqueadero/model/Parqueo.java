@@ -19,7 +19,7 @@ public class Parqueo {
 	}
 
 	public String nuevoParqueo(ParqueoEntity parqueo) {
-		try {
+		
 			Optional<VehiculoEntity> vehiculoEntity = vehiculoRepository.findById(parqueo.getVehiculoId());
 			if (vehiculoEntity.isPresent()) {
 				if (verificarPlacaYFechaVehiculo(vehiculoEntity.get()))
@@ -28,11 +28,8 @@ public class Parqueo {
 					return "EL LIMITE DE: " + vehiculoEntity.get().getTipoVehiculo() + " HA SIDO SUPERADO";
 				parqueoRepository.save(parqueo);
 				return "OK";
-			}			
-			return "EL VEHICULO NO EXISTE";
-		} catch (Exception e) {
-			return "EL VEHICULO NO EXISTE";
-		}
+			}					
+			return "EL VEHICULO NO EXISTE";	
 
 	}
 
