@@ -48,7 +48,7 @@ public class ParqueoController {
 	@PostMapping("/parqueo")
 	public ResponseEntity<String> nuevoParqueo(@RequestBody ParqueoEntity parqueo) {
 		String mensaje = this.parqueo.nuevoParqueo(parqueo);
-		if (mensaje.equals("OK"))
+		if ("OK".equals(mensaje))
 			return new ResponseEntity<>("PARQUEO CREADO CON EXITO", HttpStatus.OK);
 		else
 			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -57,7 +57,7 @@ public class ParqueoController {
 	@PutMapping("/{parqueoId}")
 	public ResponseEntity<String> salidaDeParqueo(@PathVariable Long parqueoId) {
 		String mensaje = parqueo.salidaDeParqueo(parqueoId);
-		if (mensaje.equals("OK"))
+		if ("OK".equals(mensaje))
 			return new ResponseEntity<>("SALIDA CREADA CON EXITO", HttpStatus.OK);
 		else
 			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
