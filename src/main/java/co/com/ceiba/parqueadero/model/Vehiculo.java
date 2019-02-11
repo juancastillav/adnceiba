@@ -1,7 +1,4 @@
 package co.com.ceiba.parqueadero.model;
-
-import java.util.Optional;
-
 import co.com.ceiba.parqueadero.persistence.VehiculoEntity;
 import co.com.ceiba.parqueadero.persistence.VehiculoRepository;
 
@@ -14,12 +11,14 @@ public class Vehiculo {
 	}
 
 	public String nuevoVehiculo(VehiculoEntity vehiculoEntity) {
-		Optional<VehiculoEntity> vehiculoValidacion = vehiculoRepository.findById(vehiculoEntity.getId());
-		if (!vehiculoValidacion.isPresent()) {
-			vehiculoRepository.save(vehiculoValidacion.get());
+		VehiculoEntity vehiculoValidacion = vehiculoRepository.findById(vehiculoEntity.getId()).orElse(null);
+		if (vehiculoValidacion!=null) {
+			vehiculoRepository.save(vehiculoValidacion);
 			return "OK";
+		}else {
+			return "EL VEHICULO YA EXISTE";
 		}
-		return "EL VEHICULO YA EXISTE";
+		
 
 	}
 
