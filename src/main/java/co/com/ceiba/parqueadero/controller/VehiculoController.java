@@ -50,7 +50,7 @@ public class VehiculoController {
 	public ResponseEntity<String> nuevoVehiculo(@RequestBody VehiculoEntity vehiculoEntity) {
 		String mensaje = this.vehiculo.nuevoVehiculo(vehiculoEntity);
 		if ("OK".equals(mensaje))
-			return new ResponseEntity<>("PARQUEO CREADO CON EXITO", HttpStatus.OK);
+			return new ResponseEntity<>("VEHICULO CREADO CON EXITO", HttpStatus.OK);
 		else
 			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

@@ -12,14 +12,12 @@ public class Vehiculo {
 
 	public String nuevoVehiculo(VehiculoEntity vehiculoEntity) {
 		VehiculoEntity vehiculoValidacion = vehiculoRepository.findById(vehiculoEntity.getId()).orElse(null);
-		if (vehiculoValidacion!=null) {
-			vehiculoRepository.save(vehiculoValidacion);
+		if (vehiculoValidacion==null) {
+			vehiculoRepository.save(vehiculoEntity);
 			return "OK";
 		}else {
 			return "EL VEHICULO YA EXISTE";
 		}
-		
-
 	}
 
 }
