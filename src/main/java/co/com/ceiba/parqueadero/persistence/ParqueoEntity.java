@@ -23,10 +23,11 @@ public class ParqueoEntity {
 	private Calendar fechaHoraDeSalida;
 	@Column(name = "VALOR_PAGAR")
 	private int valorAPagar;
+	
 	public ParqueoEntity() {}
 	public ParqueoEntity (long vehiculoId,Calendar fechaHoraDeEntrada) {
 		this.vehiculoId=vehiculoId;
-		this.fechaHoraDeEntrada=fechaHoraDeEntrada;
+		this.fechaHoraDeEntrada=fechaHoraDeEntrada;		
 	}
 
 	public long getId() {
@@ -66,7 +67,4 @@ public class ParqueoEntity {
 	public void setValorAPagar(int valorAPagar) {
 		this.valorAPagar = valorAPagar;
 	}
-	
-	
-
 }

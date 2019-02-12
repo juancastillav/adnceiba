@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VehiculoRepository extends JpaRepository<VehiculoEntity, Long>{
 	List<VehiculoEntity> findAllByTipoVehiculo(String tipoVehiculo);
+
+	List<VehiculoEntity> findByPlaca(String placa);
 }

@@ -48,8 +48,8 @@ public class Parqueo {
 				.costoParqueo(vehiculoEntity.getTipoVehiculo()).getMaximoVehiculosPermitidos());
 	}
 
-	public String salidaDeParqueo(Long parqueoId) {
-		Optional<ParqueoEntity> parqueoEntity = parqueoRepository.findById(parqueoId);
+	public String salidaDeParqueo(Long VehiculoId) {
+		Optional<ParqueoEntity> parqueoEntity = parqueoRepository.findByVehiculoId(VehiculoId);
 		if (!parqueoEntity.isPresent())
 			return "EL PARQUEO INGRESADO NO EXISTE";
 		else {

@@ -1,5 +1,6 @@
 package co.com.ceiba.parqueadero.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class VehiculoController {
 		return vehiculoRepository.findAll();
 	}
 	@GetMapping("/{vehiculoId}")
-	public ResponseEntity<Object> vehiculoPorId(@PathVariable long vehiculoId) {
+	public ResponseEntity<Object> vehiculoPorId(@PathVariable long vehiculoId) {System.out.println("ENTROOOOO BUSCAR VEHOCULO POR ID "+vehiculoId);
 		Optional<VehiculoEntity> vehiculoEntity=vehiculoRepository.findById(vehiculoId);
 		if(vehiculoEntity.isPresent())
 			return new ResponseEntity<>(vehiculoEntity.get(), HttpStatus.OK);
@@ -56,6 +57,21 @@ public class VehiculoController {
 	}
 	
 	
+	@GetMapping("/test/all")
+	public List<VehiculoEntity> testVehiculo() {System.out.println("ENTROOOOOOOO TEST");
+	List<VehiculoEntity> test= new ArrayList<VehiculoEntity>();
+	test.add(new VehiculoEntity(250, "XXX", "CARRO"));
+		return test;
+	}
 	
+	@GetMapping("/test/all2")
+	public ResponseEntity<Object> testVehiculoSolo() {System.out.println("ENTROOOOOOOO TEST DOSSSSSSSSS");	
+	return new ResponseEntity<>(new VehiculoEntity(250, "XXX", "CARROENTITYTEST"), HttpStatus.OK);
+	}
+
+	@GetMapping("/vehiculos/{placa}")
+	public List<VehiculoEntity> vehiculoPorPlaca(@PathVariable String placa){
+		return vehiculoRepository.findByPlaca(placa);
+	}
 
 }
