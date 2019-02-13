@@ -1,9 +1,6 @@
 package co.com.ceiba.parqueadero.controller;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import co.com.ceiba.parqueadero.model.Vehiculo;
 import co.com.ceiba.parqueadero.persistence.VehiculoEntity;
 import co.com.ceiba.parqueadero.persistence.VehiculoRepository;
@@ -55,23 +51,6 @@ public class VehiculoController {
 		else
 			return new ResponseEntity<>("VEHICULO CREADO CON EXITO", HttpStatus.OK);
 			
-	}	
-	
-	@GetMapping("/test/all")
-	public List<VehiculoEntity> testVehiculo() {
-	List<VehiculoEntity> test= new ArrayList<>();
-	test.add(new VehiculoEntity(250, "XXX", "CARRO"));
-		return test;
-	}
-	
-	@GetMapping("/test/all2")
-	public ResponseEntity<Object> testVehiculoSolo() {
-	return new ResponseEntity<>(new VehiculoEntity(250, "XXX", "CARROENTITYTEST"), HttpStatus.OK);
-	}
-
-	@GetMapping("/vehiculos/{placa}")
-	public VehiculoEntity vehiculoPorPlaca(@PathVariable String placa){
-		return vehiculoRepository.findByPlaca(placa);
 	}
 
 }
