@@ -1,7 +1,6 @@
 package co.com.ceiba.parqueadero.integrales;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -14,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import co.com.ceiba.parqueadero.controller.ParqueoController;
 import co.com.ceiba.parqueadero.model.Parqueo;
@@ -48,20 +46,7 @@ public class ParqueoControllerTest {
 			contador--;
 		}
 		assertEquals(20, parqueoController.todosLosParqueos().size());
-	}
-
-	@Test
-	public void parqueoPorId() {
-		ParqueoController parqueoController = new ParqueoController(parqueoRepository, vehiculoRepository);
-		long idParqueo = (long) entityManager.persistAndGetId(new ParqueoEntity());
-		assertNotNull(parqueoController.parqueoPorId("" + idParqueo));
-	}
-
-	@Test
-	public void parqueoPorIdNotFound() {
-		ParqueoController parqueoController = new ParqueoController(parqueoRepository, vehiculoRepository);
-		assertEquals(HttpStatus.NOT_FOUND, parqueoController.parqueoPorId("890").getStatusCode());
-	}
+	}	
 
 	@Test
 	public void nuevoParqueo() {

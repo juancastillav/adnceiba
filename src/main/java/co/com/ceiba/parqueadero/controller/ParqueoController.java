@@ -3,7 +3,6 @@ package co.com.ceiba.parqueadero.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,16 +34,7 @@ public class ParqueoController {
 	@GetMapping("/all")
 	public List<ParqueoEntity> todosLosParqueos() {
 		return parqueoRepository.findAll();
-	}
-
-	@GetMapping("/{parqueoId}")
-	public ResponseEntity<Object> parqueoPorId(@PathVariable String parqueoId) {		
-		Optional<ParqueoEntity> parqueoEntity = parqueoRepository.findById(Long.valueOf(parqueoId));
-		if (parqueoEntity.isPresent())
-			return new ResponseEntity<>(parqueoEntity.get(), HttpStatus.OK);
-		else
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	}
+	}	
 	
 	@GetMapping("/parqueo/{placaVehiculo}")
 	public List<ParqueoEntity> parqueoPorPlacaVehiculo(@PathVariable String placaVehiculo) {
