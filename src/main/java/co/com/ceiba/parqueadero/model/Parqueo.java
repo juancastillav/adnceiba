@@ -28,7 +28,7 @@ public class Parqueo {
 				agregar.setPlaca(parqueo.getVehiculoEntity().getPlaca());
 				agregar.setTipoVehiculo(parqueo.getVehiculoEntity().getTipoVehiculo());
 				vehiculoEntity= vehiculo.nuevoVehiculo(agregar);									
-			}System.out.println("ESTA VERIFICANDO PLACA::::::::: "+verificarPlacaYFechaVehiculo(vehiculoEntity));
+			}
 			if (verificarPlacaYFechaVehiculo(vehiculoEntity)) 				
 				return "EL VEHICULO NO PUEDE INGRESAR EL DIA DE HOY";
 			if (verificarLimiteDeVehiculoNoEsExcedido(vehiculoEntity))
@@ -42,7 +42,7 @@ public class Parqueo {
 	private boolean verificarPlacaYFechaVehiculo(VehiculoEntity vehiculoEntity) {
 		LocalDateTime fechaActual = LocalDateTime.now();
 		return (vehiculoEntity.getPlaca().charAt(0) == 'A'
-				&& (!fechaActual.getDayOfWeek().toString().equals("MONDAY")|| !fechaActual.getDayOfWeek().toString().equals("SUNDAY")));
+				&& (!"MONDAY".equals(fechaActual.getDayOfWeek().toString())|| !"SUNDAY".equals(fechaActual.getDayOfWeek().toString())));
 	}
 
 	private boolean verificarLimiteDeVehiculoNoEsExcedido(VehiculoEntity vehiculoEntity) {
@@ -69,9 +69,7 @@ public class Parqueo {
 	public int calcularValorAPagar(ParqueoEntity parqueoEntity) {
 		Optional<VehiculoEntity> vehiculoEntity = vehiculoRepository.findById(parqueoEntity.getVehiculoEntity().getId());
 		if (vehiculoEntity.isPresent()) {
-			LocalDateTime fechaActual = LocalDateTime.now(clock);
-			System.out.println("VERIFICANDO FECHAS ENTRADA::::::::::::::: "+parqueoEntity.getFechaHoraDeEntrada().toString());
-			System.out.println("VERIFICANDO FECHAS SALIDA::::::::::::::: "+fechaActual.toString());
+			LocalDateTime fechaActual = LocalDateTime.now(clock);			
 			double horasTotales = (ChronoUnit.SECONDS.between(parqueoEntity.getFechaHoraDeEntrada(), fechaActual)/3600.0);
 			ParqueoVehiculoFactory costoParqueoFactory = new ParqueoVehiculoFactory();
 			return costoParqueoFactory.costoParqueo(vehiculoEntity.get().getTipoVehiculo())

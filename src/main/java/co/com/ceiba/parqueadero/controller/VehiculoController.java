@@ -58,8 +58,8 @@ public class VehiculoController {
 	}	
 	
 	@GetMapping("/test/all")
-	public List<VehiculoEntity> testVehiculo() {System.out.println("ENTROOOOOOOO TEST");
-	List<VehiculoEntity> test= new ArrayList<VehiculoEntity>();
+	public List<VehiculoEntity> testVehiculo() {
+	List<VehiculoEntity> test= new ArrayList<>();
 	test.add(new VehiculoEntity(250, "XXX", "CARRO"));
 		return test;
 	}

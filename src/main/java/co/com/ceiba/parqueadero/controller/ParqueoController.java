@@ -32,13 +32,12 @@ public class ParqueoController {
 	}
 
 	@GetMapping("/all")
-	public List<ParqueoEntity> todosLosParqueos() {System.out.println("ENTROOO TRAER TODOS LOS PARQUEOS");
+	public List<ParqueoEntity> todosLosParqueos() {
 		return parqueoRepository.findAll();
 	}
 
 	@GetMapping("/{parqueoId}")
-	public ResponseEntity<Object> parqueoPorId(@PathVariable String parqueoId) {
-		
+	public ResponseEntity<Object> parqueoPorId(@PathVariable String parqueoId) {		
 		Optional<ParqueoEntity> parqueoEntity = parqueoRepository.findById(Long.valueOf(parqueoId));
 		if (parqueoEntity.isPresent())
 			return new ResponseEntity<>(parqueoEntity.get(), HttpStatus.OK);
@@ -54,7 +53,7 @@ public class ParqueoController {
 			return null;
 		else
 			listaRetorno.add(buscado);
-			return listaRetorno;
+		return listaRetorno;
 	}
 
 	@PostMapping("/parqueo")

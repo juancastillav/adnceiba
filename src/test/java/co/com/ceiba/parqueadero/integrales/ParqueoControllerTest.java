@@ -101,8 +101,7 @@ public class ParqueoControllerTest {
 	}	
 
 	@Test
-	public void salidaDeParqueoExitosa() {
-		
+	public void salidaDeParqueoExitosa() {		
 		ParqueoController parqueoController = new ParqueoController(parqueoRepository, vehiculoRepository);
 		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);		
 		ParqueoEntity parqueoEntity= entityManager
