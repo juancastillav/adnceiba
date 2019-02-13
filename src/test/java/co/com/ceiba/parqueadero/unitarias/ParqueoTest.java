@@ -1,6 +1,5 @@
 package co.com.ceiba.parqueadero.unitarias;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -9,11 +8,14 @@ import java.time.ZoneId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import co.com.ceiba.parqueadero.model.Parqueo;
+import co.com.ceiba.parqueadero.model.Vehiculo;
 import co.com.ceiba.parqueadero.persistence.ParqueoEntity;
 import co.com.ceiba.parqueadero.persistence.ParqueoRepository;
 import co.com.ceiba.parqueadero.persistence.VehiculoEntity;
@@ -28,6 +30,8 @@ public class ParqueoTest {
 	private VehiculoRepository vehiculoRepository;	
 	@Autowired
 	private TestEntityManager entityManager;	
+	@MockBean
+    private Vehiculo vehiculoMock;
 	@BeforeEach
 	public void init() {
 		vehiculoRepository.deleteAll();
@@ -42,8 +46,18 @@ public class ParqueoTest {
 		ParqueoEntity parqueoEntity=new ParqueoEntity(entityManager.persist(new VehiculoEntity(1000, "XBC", "CARRO")),LocalDateTime.of(2019, Month.JANUARY, 5, 06, 24, 00));
 		//then
 		assertEquals("OK", parqueo.nuevoParqueo(parqueoEntity));
-	}	
+	}
 	
+	@Test
+	public void agregarVehiculoCorrecto() {
+		
+		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);			
+		VehiculoEntity agregar = new VehiculoEntity(1000, "ABC", "CARRO");
+		ParqueoEntity parqueoEntity=new ParqueoEntity(agregar,LocalDateTime.of(2019, Month.JANUARY, 5, 06, 24, 00));
+		Mockito.when(vehiculoMock.nuevoVehiculo(agregar)).thenReturn(agregar);
+		assertEquals(parqueo.agregarVehiculo(parqueoEntity).getPlaca(), agregar.getPlaca());
+	}
+		
 	@Test	
 	public void nuevoParqueoVehiculoNoPuedeIngresarPorPlacaYDia() {
 		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);					

@@ -61,13 +61,6 @@ public class VehiculoControllerTest {
 		VehiculoController vehiculoController=new VehiculoController(vehiculoRepository);	
 		VehiculoEntity vehiculoEntity=new VehiculoEntity(1000, "XBC", "CARRO");		
 		assertEquals(HttpStatus.OK,vehiculoController.nuevoVehiculo(vehiculoEntity).getStatusCode());
-	}
-	
-	@Test
-	public void nuevoVehiculoYaExiste() {
-		VehiculoController vehiculoController=new VehiculoController(vehiculoRepository);
-		VehiculoEntity vehiculoEntity =  entityManager.persist(new VehiculoEntity(1000, "XBC", "CARRO"));
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,vehiculoController.nuevoVehiculo(vehiculoEntity).getStatusCode());
-	}
+	}	
 
 }
