@@ -22,12 +22,11 @@ public class Parqueo {
 	public String nuevoParqueo(ParqueoEntity parqueo) {			
 			VehiculoEntity vehiculoEntity = vehiculoRepository.findByPlaca(parqueo.getVehiculoEntity().getPlaca());			
 			if (vehiculoEntity==null) {
-				Vehiculo vehiculo=new Vehiculo(vehiculoRepository);				
-				VehiculoEntity agregar=new VehiculoEntity();
-				agregar.setCilindraje(parqueo.getVehiculoEntity().getCilindraje());
-				agregar.setPlaca(parqueo.getVehiculoEntity().getPlaca());
-				agregar.setTipoVehiculo(parqueo.getVehiculoEntity().getTipoVehiculo());
-				vehiculoEntity= vehiculo.nuevoVehiculo(agregar);									
+				VehiculoEntity aCrear=this.agregarVehiculo(parqueo);
+				if(aCrear==null)
+					return "ERROR AL INTENTAR GUARDAR EL VEHICULO";
+				else
+					vehiculoEntity=aCrear; 								
 			}
 			if (verificarPlacaYFechaVehiculo(vehiculoEntity)) 				
 				return "EL VEHICULO NO PUEDE INGRESAR EL DIA DE HOY";
@@ -37,6 +36,15 @@ public class Parqueo {
 			parqueo.setFechaHoraDeEntrada(LocalDateTime.now(clock));
 			parqueoRepository.save(parqueo);				
 			return "OK";				
+	}
+	
+	private VehiculoEntity agregarVehiculo(ParqueoEntity parqueo) {
+		Vehiculo vehiculo=new Vehiculo(vehiculoRepository);				
+		VehiculoEntity agregar=new VehiculoEntity();
+		agregar.setCilindraje(parqueo.getVehiculoEntity().getCilindraje());
+		agregar.setPlaca(parqueo.getVehiculoEntity().getPlaca());
+		agregar.setTipoVehiculo(parqueo.getVehiculoEntity().getTipoVehiculo());
+		return vehiculo.nuevoVehiculo(agregar);		
 	}
 
 	private boolean verificarPlacaYFechaVehiculo(VehiculoEntity vehiculoEntity) {
@@ -85,6 +93,7 @@ public class Parqueo {
 		
 	}		
 	
+	//TEST ONLY
 	public void setClock(Clock clock) {
 		this.clock=clock;
 	}
