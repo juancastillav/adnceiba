@@ -7,6 +7,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -113,6 +115,22 @@ public class ParqueoControllerTest {
 		parqueoEntity.setVehiculoEntity(vehiculoErroneo);
 		assertEquals("EL VEHICULO DEL PARQUEO NO SE PUDO ENCONTRAR",
 				parqueoController.salidaDeParqueo(parqueoEntity).getBody());
+	}
+	
+	@Test
+	public void parqueoPorPlacaVehiculoEncontrador() {
+		ParqueoController parqueoController = new ParqueoController(parqueoRepository, vehiculoRepository);
+		entityManager.persist(new ParqueoEntity(new VehiculoEntity(1000, "XBC", "CARRO"), LocalDateTime.of(2019, Month.JANUARY, 1, 10, 00, 00)));
+		List<ParqueoEntity> respuesta=parqueoController.parqueoPorPlacaVehiculo("XBC");
+		assertEquals(1,respuesta.size());
+	}
+	
+	@Test
+	public void parqueoPorPlacaVehiculoNoEncontrador() {
+		ParqueoController parqueoController = new ParqueoController(parqueoRepository, vehiculoRepository);
+		entityManager.persist(new ParqueoEntity(new VehiculoEntity(1000, "XBC", "CARRO"), LocalDateTime.of(2019, Month.JANUARY, 1, 10, 00, 00)));
+		List<ParqueoEntity> respuesta=parqueoController.parqueoPorPlacaVehiculo("HHH");
+		assertEquals(0,respuesta.size());
 	}
 
 }
