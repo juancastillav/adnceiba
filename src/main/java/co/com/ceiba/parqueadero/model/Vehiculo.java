@@ -10,12 +10,8 @@ public class Vehiculo {
 		this.vehiculoRepository = vehiculoRepository;
 	}
 
-	public VehiculoEntity nuevoVehiculo(VehiculoEntity vehiculoEntity) {	
-		VehiculoEntity vehiculoEncontrado=vehiculoRepository.findById(vehiculoEntity.getId()).orElse(null);
-		if(vehiculoEncontrado==null)
+	public VehiculoEntity nuevoVehiculo(VehiculoEntity vehiculoEntity) {
 			return vehiculoRepository.save(vehiculoEntity);	
-		else
-			return null;
 	}
 	
 	public VehiculoEntity buscarVehiculoPorPlaca(String placaVehiculo) {	
