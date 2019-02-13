@@ -38,7 +38,7 @@ public class VehiculoController {
 		return vehiculoRepository.findAll();
 	}
 	@GetMapping("/{vehiculoId}")
-	public ResponseEntity<Object> vehiculoPorId(@PathVariable long vehiculoId) {System.out.println("ENTROOOOO BUSCAR VEHOCULO POR ID "+vehiculoId);
+	public ResponseEntity<Object> vehiculoPorId(@PathVariable long vehiculoId) {
 		Optional<VehiculoEntity> vehiculoEntity=vehiculoRepository.findById(vehiculoId);
 		if(vehiculoEntity.isPresent())
 			return new ResponseEntity<>(vehiculoEntity.get(), HttpStatus.OK);
@@ -48,14 +48,14 @@ public class VehiculoController {
 	}
 	
 	@PostMapping("/vehiculo")
-	public ResponseEntity<String> nuevoVehiculo(@RequestBody VehiculoEntity vehiculoEntity) {
-		String mensaje = this.vehiculo.nuevoVehiculo(vehiculoEntity);
-		if ("OK".equals(mensaje))
-			return new ResponseEntity<>("VEHICULO CREADO CON EXITO", HttpStatus.OK);
-		else
+	public ResponseEntity<Object> nuevoVehiculo(@RequestBody VehiculoEntity vehiculoEntity) {
+		VehiculoEntity mensaje = this.vehiculo.nuevoVehiculo(vehiculoEntity);
+		if (mensaje==null)			
 			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
+		else
+			return new ResponseEntity<>("VEHICULO CREADO CON EXITO", HttpStatus.OK);
+			
+	}	
 	
 	@GetMapping("/test/all")
 	public List<VehiculoEntity> testVehiculo() {System.out.println("ENTROOOOOOOO TEST");
@@ -65,12 +65,12 @@ public class VehiculoController {
 	}
 	
 	@GetMapping("/test/all2")
-	public ResponseEntity<Object> testVehiculoSolo() {System.out.println("ENTROOOOOOOO TEST DOSSSSSSSSS");	
+	public ResponseEntity<Object> testVehiculoSolo() {
 	return new ResponseEntity<>(new VehiculoEntity(250, "XXX", "CARROENTITYTEST"), HttpStatus.OK);
 	}
 
 	@GetMapping("/vehiculos/{placa}")
-	public List<VehiculoEntity> vehiculoPorPlaca(@PathVariable String placa){
+	public VehiculoEntity vehiculoPorPlaca(@PathVariable String placa){
 		return vehiculoRepository.findByPlaca(placa);
 	}
 

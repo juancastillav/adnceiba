@@ -1,5 +1,6 @@
 package co.com.ceiba.parqueadero.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import co.com.ceiba.parqueadero.model.Parqueo;
 import co.com.ceiba.parqueadero.persistence.ParqueoEntity;
 import co.com.ceiba.parqueadero.persistence.ParqueoRepository;
@@ -32,36 +32,49 @@ public class ParqueoController {
 	}
 
 	@GetMapping("/all")
-	public List<ParqueoEntity> todosLosParqueos() {System.out.println("ENTROOO PARQUEOOOOO");
+	public List<ParqueoEntity> todosLosParqueos() {System.out.println("ENTROOO TRAER TODOS LOS PARQUEOS");
 		return parqueoRepository.findAll();
 	}
 
 	@GetMapping("/{parqueoId}")
 	public ResponseEntity<Object> parqueoPorId(@PathVariable String parqueoId) {
+		
 		Optional<ParqueoEntity> parqueoEntity = parqueoRepository.findById(Long.valueOf(parqueoId));
 		if (parqueoEntity.isPresent())
 			return new ResponseEntity<>(parqueoEntity.get(), HttpStatus.OK);
 		else
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping("/parqueo/{placaVehiculo}")
+	public List<ParqueoEntity> parqueoPorPlacaVehiculo(@PathVariable String placaVehiculo) {
+		ParqueoEntity buscado = parqueo.buscarParqueoPorPlaca(placaVehiculo);
+		List<ParqueoEntity>listaRetorno =new ArrayList<>();
+		if(buscado==null)				
+			return null;
+		else
+			listaRetorno.add(buscado);
+			return listaRetorno;
+	}
 
 	@PostMapping("/parqueo")
-	public ResponseEntity<String> nuevoParqueo(@RequestBody ParqueoEntity parqueo) {
-		String mensaje = this.parqueo.nuevoParqueo(parqueo);
+	public ResponseEntity<Object> nuevoParqueo(@RequestBody ParqueoEntity parqueo) {
+		String mensaje = this.parqueo.nuevoParqueo(parqueo);		
 		if ("OK".equals(mensaje))
 			return new ResponseEntity<>("PARQUEO CREADO CON EXITO", HttpStatus.OK);
 		else
 			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@PutMapping("/{VehiculoId}")
-	public ResponseEntity<String> salidaDeParqueo(@PathVariable Long VehiculoId) {System.out.println("VEHICULO ID QUE ENTROOOOOOOOOOOOOOOOOOOOO "+VehiculoId);
-		String mensaje = parqueo.salidaDeParqueo(VehiculoId);
+	@PutMapping("/salida")
+	public ResponseEntity<Object> salidaDeParqueo(@RequestBody ParqueoEntity parqueoEntity) {
+		String mensaje = parqueo.salidaDeParqueo(parqueoEntity);
 		if ("OK".equals(mensaje)) {
-			System.out.println("REEEEEEEESSSSSSSSSSSSSSSSSSPPPPPPPPPPPONSE ENTITYYYYYYYY "+new ResponseEntity<>("SALIDA CREADA CON EXITO", HttpStatus.OK));
-			return new ResponseEntity<String>("SALIDA CREADA CON EXITO", HttpStatus.OK);}
+			return new ResponseEntity<>("SALIDA CREADA CON EXITO", HttpStatus.OK);}
 		else
-			return new ResponseEntity<String>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	
 
 }

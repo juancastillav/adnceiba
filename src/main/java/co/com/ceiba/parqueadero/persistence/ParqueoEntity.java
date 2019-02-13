@@ -1,11 +1,15 @@
 package co.com.ceiba.parqueadero.persistence;
 
-import java.util.Calendar;
+
+import java.time.LocalDateTime;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,18 +19,19 @@ public class ParqueoEntity {
     @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID")
 	private long id;	
-	@Column(name="vehiculo_Id")
-	private long vehiculoId;
+	@ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name="vehiculo_Id")	
+	private VehiculoEntity vehiculoEntity;
 	@Column(name = "FECHA_HORA_ENTRADA")
-	private Calendar fechaHoraDeEntrada;
+	private LocalDateTime  fechaHoraDeEntrada;
 	@Column(name = "FECHA_HORA_SALIDA")
-	private Calendar fechaHoraDeSalida;
+	private LocalDateTime fechaHoraDeSalida;
 	@Column(name = "VALOR_PAGAR")
 	private int valorAPagar;
 	
 	public ParqueoEntity() {}
-	public ParqueoEntity (long vehiculoId,Calendar fechaHoraDeEntrada) {
-		this.vehiculoId=vehiculoId;
+	public ParqueoEntity (VehiculoEntity vehiculoEntity,LocalDateTime fechaHoraDeEntrada) {
+		this.vehiculoEntity=vehiculoEntity;
 		this.fechaHoraDeEntrada=fechaHoraDeEntrada;		
 	}
 
@@ -36,27 +41,27 @@ public class ParqueoEntity {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getVehiculoId() {
-		return vehiculoId;
+	public VehiculoEntity getVehiculoEntity() {
+		return vehiculoEntity;
 	}
 
-	public void setVehiculo(Long vehiculoId) {
-		this.vehiculoId = vehiculoId;
+	public void setVehiculoEntity(VehiculoEntity vehiculoId) {
+		this.vehiculoEntity = vehiculoId;
 	}
 
-	public Calendar getFechaHoraDeEntrada() {
+	public LocalDateTime getFechaHoraDeEntrada() {
 		return fechaHoraDeEntrada;
 	}
 
-	public void setFechaHoraDeEntrada(Calendar fechaHoraDeEntrada) {
+	public void setFechaHoraDeEntrada(LocalDateTime fechaHoraDeEntrada) {
 		this.fechaHoraDeEntrada = fechaHoraDeEntrada;
 	}
 
-	public Calendar getFechaHoraDeSalida() {
+	public LocalDateTime getFechaHoraDeSalida() {
 		return fechaHoraDeSalida;
 	}
 
-	public void setFechaHoraDeSalida(Calendar fechaHoraDeSalida2) {
+	public void setFechaHoraDeSalida(LocalDateTime fechaHoraDeSalida2) {
 		this.fechaHoraDeSalida = fechaHoraDeSalida2;
 	}
 

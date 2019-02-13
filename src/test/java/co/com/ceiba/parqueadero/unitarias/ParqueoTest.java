@@ -1,6 +1,11 @@
 package co.com.ceiba.parqueadero.unitarias;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.GregorianCalendar;
+
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -32,32 +37,23 @@ public class ParqueoTest {
 	@Test	
 	public void nuevoParqueoExitoso() {		
 		//given
-		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);		
-		long idGenerado=(long) entityManager.persistAndGetId(new VehiculoEntity(1000, "XBC", "CARRO"));		
+		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);					
 		//when
-		ParqueoEntity parqueoEntity=new ParqueoEntity(idGenerado,new GregorianCalendar(2019,1,5,6,24,00));
+		ParqueoEntity parqueoEntity=new ParqueoEntity(entityManager.persist(new VehiculoEntity(1000, "XBC", "CARRO")),LocalDateTime.of(2019, Month.JANUARY, 5, 06, 24, 00));
 		//then
 		assertEquals("OK", parqueo.nuevoParqueo(parqueoEntity));
-	}
+	}	
 	
 	@Test	
-	public void nuevoParqueoVehiculoNoExiste() {		
-		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);
-		ParqueoEntity parqueoEntity=new ParqueoEntity(0,new GregorianCalendar(2019,1,5,6,24,00));	
-		assertEquals("EL VEHICULO NO EXISTE", parqueo.nuevoParqueo(parqueoEntity));
-	}
-	@Test	
 	public void nuevoParqueoVehiculoNoPuedeIngresarPorPlacaYDia() {
-		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);			
-		long idGenerado=(long) entityManager.persistAndGetId(new VehiculoEntity(1000, "ABC", "CARRO"));	
-		ParqueoEntity parqueoEntity=new ParqueoEntity(idGenerado,new GregorianCalendar(2019,1,5,6,24,00));				
+		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);					
+		ParqueoEntity parqueoEntity=new ParqueoEntity(entityManager.persist(new VehiculoEntity(1000, "ABC", "CARRO")),LocalDateTime.of(2019, Month.JANUARY, 5, 06, 24, 00));				
 		assertEquals("EL VEHICULO NO PUEDE INGRESAR EL DIA DE HOY", parqueo.nuevoParqueo(parqueoEntity));
 	}
 	@Test	
 	public void nuevoParqueoVehiculoSuperaCantidadMaximaVehiculos() {
-		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);
-		long idGenerado=(long) entityManager.persistAndGetId(new VehiculoEntity(1000, "XXX", "CARRO"));	
-		ParqueoEntity parqueoEntity=new ParqueoEntity(idGenerado,new GregorianCalendar(2019,1,5,6,24,00));	
+		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);		
+		ParqueoEntity parqueoEntity=new ParqueoEntity(entityManager.persist(new VehiculoEntity(1000, "XXX", "CARRO")),LocalDateTime.of(2019, Month.JANUARY, 5, 06, 24, 00));	
 		int contador =20;
 		while(contador>0) {
 			entityManager.persist(new VehiculoEntity(1000, "GGG", "CARRO"));	
@@ -69,37 +65,41 @@ public class ParqueoTest {
 	@Test
 	public void salidaDeParqueo() {		
 		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);
-		long idGeneradoVehiculo=(long) entityManager.persistAndGetId(new VehiculoEntity(1000, "ABC", "CARRO"));	
-		long idGeneradoParqueo=(long) entityManager.persistAndGetId(new ParqueoEntity(idGeneradoVehiculo,new GregorianCalendar(2019,1,5,6,24,00)));				
-		assertEquals("OK", parqueo.salidaDeParqueo(idGeneradoParqueo));
+		VehiculoEntity vehiculoEntity= entityManager.persist(new VehiculoEntity(1000, "ABC", "CARRO"));	
+		ParqueoEntity parqueoEntity= entityManager.persist(new ParqueoEntity(vehiculoEntity,LocalDateTime.of(2019, Month.JANUARY, 5, 06, 24, 00)));				
+		assertEquals("OK", parqueo.salidaDeParqueo(parqueoEntity));
 		
 	}	
 	@Test
 	public void calcularValorAPagar() {
 		// arrange
 		Parqueo parqueo = new Parqueo(parqueoRepository, vehiculoRepository);
-		long idGeneradoVehiculoPorHoras=(long) entityManager.persistAndGetId(new VehiculoEntity(1000, "ABC", "CARRO"));	
-		long idGeneradoVehiculoPorDia=(long) entityManager.persistAndGetId(new VehiculoEntity(1000, "EFG", "CARRO"));	
-		long idGeneradoVehiculoMasDelDia=(long) entityManager.persistAndGetId(new VehiculoEntity(1000, "EFG", "CARRO"));	
-		long idGeneradoMotoBajoCilindraje=(long) entityManager.persistAndGetId(new VehiculoEntity(250, "EFG", "MOTO"));
-		long idGeneradoMotoAltoCilindraje=(long) entityManager.persistAndGetId(new VehiculoEntity(1000, "EFG", "MOTO"));
 		
-		ParqueoEntity parqueoEntityVehiculoPorHoras=new ParqueoEntity(idGeneradoVehiculoPorHoras,new GregorianCalendar(2019,1,5,6,00,00));	
-		ParqueoEntity parqueoEntityVehiculoPorDia=new ParqueoEntity(idGeneradoVehiculoPorDia,new GregorianCalendar(2019,1,5,6,00,00));	
-		ParqueoEntity parqueoEntityVehiculoMasDelDia=new ParqueoEntity(idGeneradoVehiculoMasDelDia,new GregorianCalendar(2019,1,5,6,00,00));	
-		ParqueoEntity parqueoEntityMotoBajoCilindraje=new ParqueoEntity(idGeneradoMotoBajoCilindraje,new GregorianCalendar(2019,1,5,6,00,00));	
-		ParqueoEntity parqueoEntityMotoAltoCilindraje=new ParqueoEntity(idGeneradoMotoAltoCilindraje,new GregorianCalendar(2019,1,5,6,00,00));	
+		ParqueoEntity parqueoEntityVehiculoPorHoras=new ParqueoEntity(entityManager.persist(new VehiculoEntity(1000, "ABC", "CARRO")),LocalDateTime.of(2019, Month.JANUARY, 5, 06, 00, 00));	
+		ParqueoEntity parqueoEntityVehiculoPorDia=new ParqueoEntity(entityManager.persist(new VehiculoEntity(1000, "EFG", "CARRO")),LocalDateTime.of(2019, Month.JANUARY, 5, 06, 00, 00));	
+		ParqueoEntity parqueoEntityVehiculoMasDelDia=new ParqueoEntity(entityManager.persist(new VehiculoEntity(1000, "EFG", "CARRO")),LocalDateTime.of(2019, Month.JANUARY, 5, 06, 00, 00));	
+		ParqueoEntity parqueoEntityMotoBajoCilindraje=new ParqueoEntity(entityManager.persist(new VehiculoEntity(250, "EFG", "MOTO")),LocalDateTime.of(2019, Month.JANUARY, 5, 06, 00, 00));	
+		ParqueoEntity parqueoEntityMotoAltoCilindraje=new ParqueoEntity(entityManager.persist(new VehiculoEntity(1000, "EFG", "MOTO")),LocalDateTime.of(2019, Month.JANUARY, 5, 06, 00, 00));	
 		
-		// assert
-		parqueo.setCalendar(new GregorianCalendar(2019,1,5,9,00,00));
+		// assert		
+		parqueo.setClock(Clock.fixed(Instant.parse("2019-01-05T14:00:00.00Z"),
+				ZoneId.systemDefault()));
 		assertEquals(3000, parqueo.calcularValorAPagar(parqueoEntityVehiculoPorHoras));
-		parqueo.setCalendar(new GregorianCalendar(2019,1,5,16,00,00));
+		
+		parqueo.setClock(Clock.fixed(Instant.parse("2019-01-05T21:00:00.00Z"),
+				ZoneId.systemDefault()));
 		assertEquals(8000, parqueo.calcularValorAPagar(parqueoEntityVehiculoPorDia));
-		parqueo.setCalendar(new GregorianCalendar(2019,1,6,8,00,00));
+		
+		parqueo.setClock(Clock.fixed(Instant.parse("2019-01-06T13:00:00.00Z"),
+				ZoneId.systemDefault()));
 		assertEquals(10000, parqueo.calcularValorAPagar(parqueoEntityVehiculoMasDelDia));
-		parqueo.setCalendar(new GregorianCalendar(2019,1,5,9,00,00));
+		
+		parqueo.setClock(Clock.fixed(Instant.parse("2019-01-05T14:00:00.00Z"),
+				ZoneId.systemDefault()));
 		assertEquals(1500, parqueo.calcularValorAPagar(parqueoEntityMotoBajoCilindraje));
-		parqueo.setCalendar(new GregorianCalendar(2019,1,5,9,00,00));
+		
+		parqueo.setClock(Clock.fixed(Instant.parse("2019-01-05T14:00:00.00Z"),
+				ZoneId.systemDefault()));
 		assertEquals(3500, parqueo.calcularValorAPagar(parqueoEntityMotoAltoCilindraje));
 		
 	}

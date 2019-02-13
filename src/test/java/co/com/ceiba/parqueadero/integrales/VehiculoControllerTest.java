@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import co.com.ceiba.parqueadero.controller.VehiculoController;
+import co.com.ceiba.parqueadero.persistence.ParqueoRepository;
 import co.com.ceiba.parqueadero.persistence.VehiculoEntity;
 import co.com.ceiba.parqueadero.persistence.VehiculoRepository;
 
@@ -22,9 +23,12 @@ public class VehiculoControllerTest {
 	@Autowired
 	private VehiculoRepository vehiculoRepository;
 	@Autowired
+	private ParqueoRepository parqueoRepository;
+	@Autowired
 	private TestEntityManager entityManager;
 	@BeforeEach
 	public void setup(){
+		parqueoRepository.deleteAll();
 		vehiculoRepository.deleteAll();
 		}
 	

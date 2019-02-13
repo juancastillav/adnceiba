@@ -10,14 +10,17 @@ public class Vehiculo {
 		this.vehiculoRepository = vehiculoRepository;
 	}
 
-	public String nuevoVehiculo(VehiculoEntity vehiculoEntity) {
-		VehiculoEntity vehiculoValidacion = vehiculoRepository.findById(vehiculoEntity.getId()).orElse(null);
-		if (vehiculoValidacion==null) {
-			vehiculoRepository.save(vehiculoEntity);
-			return "OK";
-		}else {
-			return "EL VEHICULO YA EXISTE";
-		}
+	public VehiculoEntity nuevoVehiculo(VehiculoEntity vehiculoEntity) {	
+		VehiculoEntity vehiculoEncontrado=vehiculoRepository.findById(vehiculoEntity.getId()).orElse(null);
+		if(vehiculoEncontrado==null)
+			return vehiculoRepository.save(vehiculoEntity);	
+		else
+			return null;
 	}
+	
+	public VehiculoEntity buscarVehiculoPorPlaca(String placaVehiculo) {	
+		return vehiculoRepository.findByPlaca(placaVehiculo);
+	}
+	
 
 }
