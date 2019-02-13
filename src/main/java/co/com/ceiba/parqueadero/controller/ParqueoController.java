@@ -1,6 +1,7 @@
 package co.com.ceiba.parqueadero.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class ParqueoController {
 		ParqueoEntity buscado = parqueo.buscarParqueoPorPlaca(placaVehiculo);
 		List<ParqueoEntity>listaRetorno =new ArrayList<>();
 		if(buscado==null)				
-			return null;
+			return Collections.emptyList();
 		else
 			listaRetorno.add(buscado);
 		return listaRetorno;
@@ -68,8 +69,8 @@ public class ParqueoController {
 	@PutMapping("/salida")
 	public ResponseEntity<Object> salidaDeParqueo(@RequestBody ParqueoEntity parqueoEntity) {
 		String mensaje = parqueo.salidaDeParqueo(parqueoEntity);
-		if ("OK".equals(mensaje)) {
-			return new ResponseEntity<>("SALIDA CREADA CON EXITO", HttpStatus.OK);}
+		if ("OK".equals(mensaje)) 
+			return new ResponseEntity<>("SALIDA CREADA CON EXITO", HttpStatus.OK);			
 		else
 			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
