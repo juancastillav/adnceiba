@@ -34,32 +34,42 @@ public class VehiculoControllerTest {
 	
 	@Test
 	public void todosLosVehiculos() {
+		//given
 		VehiculoController vehiculoController=new VehiculoController(vehiculoRepository);
+		//when
 		int contador = 20;		
 		while (contador > 0) {
 			entityManager.persist(new VehiculoEntity());
 			contador--;
 		}		
+		//then
 		assertEquals(20, vehiculoController.todosLosVehiculos().size());		
 	}
 	
 	@Test
 	public void vehiculoPorId() {
+		//given
 		VehiculoController vehiculoController=new VehiculoController(vehiculoRepository);
+		//when
 		long idVehiculo = (long) entityManager.persistAndGetId(new VehiculoEntity());		
+		//then
 		assertNotNull(vehiculoController.vehiculoPorId(idVehiculo));
 	}
 	
 	@Test
 	public void vehiculoPorIdNotFound() {
-		VehiculoController vehiculoController=new VehiculoController(vehiculoRepository);			
+		//given
+		VehiculoController vehiculoController=new VehiculoController(vehiculoRepository);		
+		//then
 		assertEquals(HttpStatus.NOT_FOUND, vehiculoController.vehiculoPorId(0).getStatusCode());
 	}
 	
 	@Test
 	public void nuevoVehiculoCreado() {
+		//given
 		VehiculoController vehiculoController=new VehiculoController(vehiculoRepository);	
 		VehiculoEntity vehiculoEntity=new VehiculoEntity(1000, "XBC", "CARRO");		
+		//then
 		assertEquals(HttpStatus.OK,vehiculoController.nuevoVehiculo(vehiculoEntity).getStatusCode());
 	}	
 

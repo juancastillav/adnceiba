@@ -11,13 +11,13 @@ public class ParqueoVehiculoCarroTest {
 	
 	@Test
 	void calcularValorAPagar() {
-		// arrange
+		// given
 		ParqueoVehiculoCarro parqueoVehiculoCarroHoras=new ParqueoVehiculoCarro();
 		ParqueoVehiculoCarro parqueoVehiculoCarroDia=new ParqueoVehiculoCarro();
 		ParqueoVehiculoCarro parqueoVehiculoCarroMasDelDia=new ParqueoVehiculoCarro();
-		// act
+		// when
 		VehiculoEntity vehiculoEntity=new VehiculoEntity(1000, "ABC", "CARRO");
-		// assert
+		// then
 		assertEquals(3000, parqueoVehiculoCarroHoras.calcularValorAPagar(3, vehiculoEntity));
 		assertEquals(8000, parqueoVehiculoCarroDia.calcularValorAPagar(10, vehiculoEntity));
 		assertEquals(11000, parqueoVehiculoCarroMasDelDia.calcularValorAPagar(27, vehiculoEntity));

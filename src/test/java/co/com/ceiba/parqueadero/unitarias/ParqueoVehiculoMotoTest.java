@@ -9,13 +9,12 @@ public class ParqueoVehiculoMotoTest {
 
 	@Test
 	void calcularValorAPagarBajoCilindraje() {
-		// arrange
+		// given
 		ParqueoVehiculoMoto parqueoVehiculoMotoHoras = new ParqueoVehiculoMoto();
 		ParqueoVehiculoMoto parqueoVehiculoMotoDia = new ParqueoVehiculoMoto();
 		ParqueoVehiculoMoto parqueoVehiculoMotoMasDelDia = new ParqueoVehiculoMoto();
-		// act
 		VehiculoEntity vehiculoEntity = new VehiculoEntity(300, "ABC", "MOTO");
-		// assert
+		// then
 		assertEquals(1500, parqueoVehiculoMotoHoras.calcularValorAPagar(3, vehiculoEntity));
 		assertEquals(4000, parqueoVehiculoMotoDia.calcularValorAPagar(10, vehiculoEntity));
 		assertEquals(5500, parqueoVehiculoMotoMasDelDia.calcularValorAPagar(27, vehiculoEntity));
@@ -23,13 +22,12 @@ public class ParqueoVehiculoMotoTest {
 	
 	@Test
 	void calcularValorAPagarAltoCilindraje() {
-		// arrange
+		// given
 		ParqueoVehiculoMoto parqueoVehiculoMotoHoras = new ParqueoVehiculoMoto();
 		ParqueoVehiculoMoto parqueoVehiculoMotoDia = new ParqueoVehiculoMoto();
 		ParqueoVehiculoMoto parqueoVehiculoMotoMasDelDia = new ParqueoVehiculoMoto();
-		// act
 		VehiculoEntity vehiculoEntity = new VehiculoEntity(800, "ABC", "MOTO");
-		// assert
+		// then
 		assertEquals(3500, parqueoVehiculoMotoHoras.calcularValorAPagar(3, vehiculoEntity));
 		assertEquals(6000, parqueoVehiculoMotoDia.calcularValorAPagar(10, vehiculoEntity));
 		assertEquals(7500, parqueoVehiculoMotoMasDelDia.calcularValorAPagar(27, vehiculoEntity));

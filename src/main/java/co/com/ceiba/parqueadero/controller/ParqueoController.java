@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,10 +32,15 @@ public class ParqueoController {
 		parqueo = new Parqueo(parqueoRepository, vehiculoRepository);
 	}
 
-	@GetMapping("/all")
+	@GetMapping("/parqueosActivos")
 	public List<ParqueoEntity> todosLosParqueos() {
-		return parqueoRepository.findAll();
+		return parqueoRepository.findByfechaHoraDeSalidaIsNull();
 	}	
+	
+	@GetMapping("/parqueosCerrados")
+	public List<ParqueoEntity> todosLosParqueosCerrados(){
+		return parqueoRepository.findByfechaHoraDeSalidaIsNotNull();
+	}
 	
 	@GetMapping("/parqueo/{placaVehiculo}")
 	public List<ParqueoEntity> parqueoPorPlacaVehiculo(@PathVariable String placaVehiculo) {
@@ -47,23 +53,25 @@ public class ParqueoController {
 		return listaRetorno;
 	}
 
-	@PostMapping("/parqueo")
+	@PostMapping(value ="/parqueo",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> nuevoParqueo(@RequestBody ParqueoEntity parqueo) {
 		String mensaje = this.parqueo.nuevoParqueo(parqueo);		
 		if ("OK".equals(mensaje))
-			return new ResponseEntity<>("PARQUEO CREADO CON EXITO", HttpStatus.OK);
+			return new ResponseEntity<>("{\"message\":\"PARQUEO CREADO CON EXITO\"}", HttpStatus.OK) ;
 		else
-			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("{\"message\":\""+mensaje+"\"}", HttpStatus.IM_USED);
 	}
 
-	@PutMapping("/salida")
+	@PutMapping(value ="/salida",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> salidaDeParqueo(@RequestBody ParqueoEntity parqueoEntity) {
 		String mensaje = parqueo.salidaDeParqueo(parqueoEntity);
 		if ("OK".equals(mensaje)) 
-			return new ResponseEntity<>("SALIDA CREADA CON EXITO", HttpStatus.OK);			
+			return new ResponseEntity<>("{\"message\":\"SALIDA CREADA CON EXITO\"}", HttpStatus.OK);			
 		else
-			return new ResponseEntity<>(mensaje, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("{\"message\":\""+mensaje+"\"}", HttpStatus.IM_USED);
 	}
+	
+	
 	
 	
 

@@ -20,7 +20,7 @@ public class Parqueo {
 		clock = Clock.system(Clock.systemDefaultZone().getZone());
 	}
 
-	public String nuevoParqueo(ParqueoEntity parqueo) {
+	public String nuevoParqueo(ParqueoEntity parqueo) {		
 		VehiculoEntity vehiculoEntity = vehiculoRepository.findByPlaca(parqueo.getVehiculoEntity().getPlaca());
 		if (vehiculoEntity == null) {
 			VehiculoEntity aCrear = this.agregarVehiculo(parqueo);
@@ -29,6 +29,9 @@ public class Parqueo {
 			else
 				vehiculoEntity = aCrear;
 		}
+		ParqueoEntity buscarSiEstaActivo= parqueoRepository.findByVehiculoEntityAndFechaHoraDeSalidaIsNull(vehiculoEntity);
+		if(buscarSiEstaActivo!=null)
+			return "EL VEHICULO YA TIENE UN PARQUEO ACTIVO";
 		if (verificarPlacaYFechaVehiculo(vehiculoEntity))
 			return "EL VEHICULO NO PUEDE INGRESAR EL DIA DE HOY";
 		if (verificarLimiteDeVehiculoNoEsExcedido(vehiculoEntity))
