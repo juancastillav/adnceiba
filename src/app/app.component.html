@@ -1,0 +1,91 @@
+<div class="container">
+  <h1 align="center">PARQUEADERO</h1>
+</div>
+<div class="container">
+  <h3>Buscar Vehiculo Por Placa</h3>
+  <div class="form-group">
+    <input type="text" #titleInput class="form-control">
+  </div>
+  <button type="submit" class='btn btn-success'
+    (click)='buscarParqueoPorPlaca(titleInput.value.toUpperCase().trim())'>Buscar</button>
+
+</div>
+<div>
+  <div class="container">
+    <h2 align="center">PARQUEOS ACTIVOS</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Placa Vehiculo</th>
+          <th>Tipo Vehiculo</th>
+          <th>fecha Hora De Entrada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let parqueo of parqueosActivos| async">
+          <td>{{parqueo.vehiculoEntity.placa}}</td>
+          <td>{{parqueo.vehiculoEntity.tipoVehiculo}}</td>
+          <td>{{parqueo.fechaHoraDeEntrada}}</td>
+          <td>
+            <div class="form-group">
+              <button type="submit" class='btn btn-danger' (click)="darSalida(parqueo)">DAR SALIDA</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="container">
+    <h2 align="center">REGISTRAR VEHICULO</h2>
+    <form>
+      <div class="form-group">
+        <label for="placa">PLACA</label>
+        <input type="text" #placaInput class="form-control" id="placaValue" required>
+      </div>
+      <div class="form-group">
+        <label for="cilindraje">CILINDRAJE</label>
+        <input knifeOnlyNumbers type="text" #cilindrajeInput class="form-control" id="cilindrajeValue" required
+          numbersOnly>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" [(ngModel)]="tipoVehiculo" id="radioCarro"
+          value="CARRO">
+        <label class="form-check-label" for="tipoVehiculos">
+          CARRO
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="exampleRadios" [(ngModel)]="tipoVehiculo" id="radioMoto"
+          value="MOTO">
+        <label class="form-check-label" for="tipoVehiculos">
+          MOTO
+        </label>
+      </div>
+      <button type="submit" class="btn btn-success"
+        (click)='registrarParqueoNuevo(cilindrajeInput.value,placaInput.value.toUpperCase().trim())'>Registrar</button>
+    </form>
+  </div>
+  <div class="container">
+    <h2 align="center">PARQUEOS CERRADOS</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Placa Vehiculo</th>
+          <th>Tipo Vehiculo</th>
+          <th>fecha Hora De Entrada</th>
+          <th>fecha Hora De Entrada</th>
+          <th>Valor Pagado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let parqueo of parqueosCerrados| async">
+          <td>{{parqueo.vehiculoEntity.placa}}</td>
+          <td>{{parqueo.vehiculoEntity.tipoVehiculo}}</td>
+          <td>{{parqueo.fechaHoraDeEntrada}}</td>
+          <td>{{parqueo.fechaHoraDeSalida}}</td>
+          <td>{{parqueo.valorAPagar}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
